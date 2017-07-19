@@ -133,46 +133,25 @@ function Invoke-FolderClean
 #Function to Output details to console for use in ticket notes
 function Out-LTLog
     {
-        $Global:DiskCleanupLog = "Checked folders, these are showing the following size details:"
-        $Global:DiskCleanupLog += "`nFolderSize`tFolderName"
-        $Global:DiskCleanupLog += "`n----------`t----------"
-        foreach ($folder in $Global:foldersizes1)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
-            }
-        foreach ($folder in $Global:foldersizes2)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
-            }            
-        $Global:DiskCleanupLog += "`n "
-        $Global:DiskCleanupLog += "`nChecked for CBS log corruption, results:"
-        $Global:DiskCleanupLog += "`n" + $Global:CBSCorruptionDetected
-        $Global:DiskCleanupLog += "`n "
-        $Global:DiskCleanupLog += "`nThe following folders will be purged:"
-        foreach ($folder in $Global:foldersizes1)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderName)"
-            }
-        foreach ($folder in $Global:foldersizes2)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderName)"
-            }                  
+        Write-Output "Checked folders, these are showing the following size details:"
+
+        Write-Output $Global:foldersizes1
+        Write-Output $Global:foldersizes2
+                        
+        Write-Output "`n "
+        Write-Output "`nChecked for CBS log corruption, results:"
+        Write-Output "`n$Global:CBSCorruptionDetected"
+        Write-Output "`n "
+        Write-Output "`nThe following folders will be purged:"
+        Write-Output $Global:foldersizes1
+        Write-Output $Global:foldersizes2        
         if ($Global:CBSCorruptionDetected -eq "CBS Log Corruption Detected")
             {
-                $Global:DiskCleanupLog += "`nC:\Windows\Logs\CBS"
+                Write-Output "`nC:\Windows\Logs\CBS"
             }
-        $Global:DiskCleanupLog += "`n "
-        $Global:DiskCleanupLog += "`nCleanup was run, these folders now report as follows:"
-        $Global:DiskCleanupLog += "`nFolderSize`tFolderName"
-        $Global:DiskCleanupLog += "`n----------`t----------"
-        foreach ($folder in $Global:foldersizes1PostClean)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
-            }
-        foreach ($folder in $Global:foldersizes2PostClean)
-            {
-                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
-            }            
 
-        Write-Output $Global:DiskCleanupLog
+        Write-Output "`n "
+        Write-Output "`nCleanup was run, these folders now report as follows:"
+        Write-Output $Global:foldersizes1PostClean
+        Write-Output $Global:foldersizes2PostClean
     }
