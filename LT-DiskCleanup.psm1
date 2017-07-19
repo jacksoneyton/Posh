@@ -135,7 +135,7 @@ function Out-LTLog
     {
         Write-Output "Checked folders, these are showing the following size details:"
 
-        Write-Output $Global:foldersizes1
+        Write-Output $Global:foldersizes1 | ft
         Write-Output $Global:foldersizes2
                         
         Write-Output "`n "
@@ -143,8 +143,8 @@ function Out-LTLog
         Write-Output "`n$Global:CBSCorruptionDetected"
         Write-Output "`n "
         Write-Output "`nThe following folders will be purged:"
-        Write-Output $Global:foldersizes1
-        Write-Output $Global:foldersizes2        
+        Write-Output $Global:foldersizes1.FolderName
+        Write-Output $Global:foldersizes2.FolderName
         if ($Global:CBSCorruptionDetected -eq "CBS Log Corruption Detected")
             {
                 Write-Output "`nC:\Windows\Logs\CBS"
@@ -152,6 +152,6 @@ function Out-LTLog
 
         Write-Output "`n "
         Write-Output "`nCleanup was run, these folders now report as follows:"
-        Write-Output $Global:foldersizes1PostClean
+        Write-Output $Global:foldersizes1PostClean | ft
         Write-Output $Global:foldersizes2PostClean
     }
