@@ -110,6 +110,7 @@ function Test-CBSLogCorruptionState
 ##Function to Clean Large folders and CBS if flagged
 function Invoke-FolderClean
     {
+        $ErrorActionPreference = "SilentlyContinue"
         Test-CBSLogCorruptionState
         foreach ($Folder in $($Global:foldersizes1.FolderName))
             {
