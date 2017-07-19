@@ -133,25 +133,20 @@ function Invoke-FolderClean
 #Function to Output details to console for use in ticket notes
 function Out-LTLog
     {
-        Write-Output "Checked folders, these are showing the following size details:"
-
-        Write-Output $Global:foldersizes1 | ft
-        Write-Output $Global:foldersizes2
+        Write-Output "Checked folders, these are showing the following size details:" $Global:foldersizes1 $Global:foldersizes2
                         
-        Write-Output "`n "
-        Write-Output "`nChecked for CBS log corruption, results:"
-        Write-Output "`n$Global:CBSCorruptionDetected"
-        Write-Output "`n "
-        Write-Output "`nThe following folders will be purged:"
+        Write-Output ""
+        Write-Output "Checked for CBS log corruption, results:"
+        Write-Output "$Global:CBSCorruptionDetected"
+        Write-Output ""
+        Write-Output "The following folders will be purged:"
         Write-Output $Global:foldersizes1.FolderName
         Write-Output $Global:foldersizes2.FolderName
         if ($Global:CBSCorruptionDetected -eq "CBS Log Corruption Detected")
             {
-                Write-Output "`nC:\Windows\Logs\CBS"
+                Write-Output "C:\Windows\Logs\CBS"
             }
 
-        Write-Output "`n "
-        Write-Output "`nCleanup was run, these folders now report as follows:"
-        Write-Output $Global:foldersizes1PostClean | ft
-        Write-Output $Global:foldersizes2PostClean
+        Write-Output ""
+        Write-Output "Cleanup was run, these folders now report as follows:" $Global:foldersizes1PostClean $Global:foldersizes2PostClean | ft
     }
