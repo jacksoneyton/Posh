@@ -113,13 +113,13 @@ function Invoke-FolderClean
         Test-CBSLogCorruptionState
         foreach ($Folder in $($Global:foldersizes1.FolderName))
             {
-                $cleanPath = $Folder + "\"
+                $cleanPath = $Folder + "\*"
                 Remove-Item $cleanPath -Recurse
             }
 
         foreach ($Folder in $($Global:foldersizes2.FolderName))
             {
-                $cleanPath = $Folder + "\"
+                $cleanPath = $Folder + "\*"
                 Remove-Item $cleanPath -Recurse
             }            
             
