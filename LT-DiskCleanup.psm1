@@ -88,8 +88,9 @@ Function Get-FolderSize
 function Get-CleanableFolderSizes
     {
         $Global:path1 = "C:\WINDOWS\TEMP"
-        $Global:Path2 = $ENV:TEMP
-        $Global:foldersizes = Get-FolderSize -path $Global:path1, $Global:path2 -unit MB 
+        $Global:Path2 = (Get-ChildItem -path C:\Users\*\AppData\Local\Temp)
+        $Global:foldersizes1 = Get-FolderSize -path $Global:path1 -unit MB 
+        $Global:foldersizes2 = Get-FolderSize -path $Global:path2 -unit MB
     }
 
 ##Function to Check for CBS log corruption
@@ -109,17 +110,25 @@ function Test-CBSLogCorruptionState
 ##Function to Clean Large folders and CBS if flagged
 function Invoke-FolderClean
     {
-        foreach ($Folder in $($Global:foldersizes.FolderName))
+        Test-CBSLogCorruptionState
+        foreach ($Folder in $($Global:foldersizes1.FolderName))
             {
                 $cleanPath = $Folder + "\"
                 Remove-Item $cleanPath -Recurse
             }
-        
+
+        foreach ($Folder in $($Global:foldersizes2.FolderName))
+            {
+                $cleanPath = $Folder + "\"
+                Remove-Item $cleanPath -Recurse
+            }            
+            
         if ($Global:CBSCorruptionDetected -eq "CBS Log Corruption Detected")
             {
                 Remove-Item C:\Windows\Logs\CBS\* -Recurse
             }
-        $Global:foldersizesPostClean = Get-FolderSize -path $Global:path1, $Global:path2 -unit MB
+        $Global:foldersizes1PostClean = Get-FolderSize -path $Global:path1 -unit MB
+        $Global:foldersizes2PostClean = Get-FolderSize -path $Global:path2 -unit MB
     }
 #Function to Output details to console for use in ticket notes
 function Out-LTLog
@@ -127,17 +136,27 @@ function Out-LTLog
         $Global:DiskCleanupLog = "Checked folders, these are showing the following size details:"
         $Global:DiskCleanupLog += "`nFolderSize`tFolderName"
         $Global:DiskCleanupLog += "`n----------`t----------"
-        foreach ($folder in $Global:foldersizes)
+        foreach ($folder in $Global:foldersizes1)
             {
                 $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
             }
+        foreach ($folder in $Global:foldersizes2)
+            {
+                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+            }            
         $Global:DiskCleanupLog += "`n "
         $Global:DiskCleanupLog += "`nChecked for CBS log corruption, results:"
         $Global:DiskCleanupLog += "`n" + $Global:CBSCorruptionDetected
         $Global:DiskCleanupLog += "`n "
         $Global:DiskCleanupLog += "`nThe following folders will be purged:"
-        $Global:DiskCleanupLog += "`n$Global:path1"
-        $Global:DiskCleanupLog += "`n$Global:path2"
+        foreach ($folder in $Global:foldersizes1)
+            {
+                $Global:DiskCleanupLog += "`n$($folder.FolderName)"
+            }
+        foreach ($folder in $Global:foldersizes2)
+            {
+                $Global:DiskCleanupLog += "`n$($folder.FolderName)"
+            }                  
         if ($Global:CBSCorruptionDetected -eq "CBS Log Corruption Detected")
             {
                 $Global:DiskCleanupLog += "`nC:\Windows\Logs\CBS"
@@ -146,10 +165,14 @@ function Out-LTLog
         $Global:DiskCleanupLog += "`nCleanup was run, these folders now report as follows:"
         $Global:DiskCleanupLog += "`nFolderSize`tFolderName"
         $Global:DiskCleanupLog += "`n----------`t----------"
-        foreach ($folder in $Global:foldersizesPostClean)
+        foreach ($folder in $Global:foldersizes1PostClean)
             {
                 $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
             }
+        foreach ($folder in $Global:foldersizes2PostClean)
+            {
+                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+            }            
 
         Write-Output $Global:DiskCleanupLog
     }
