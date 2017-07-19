@@ -138,11 +138,11 @@ function Out-LTLog
         $Global:DiskCleanupLog += "`n----------`t----------"
         foreach ($folder in $Global:foldersizes1)
             {
-                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
             }
         foreach ($folder in $Global:foldersizes2)
             {
-                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
             }            
         $Global:DiskCleanupLog += "`n "
         $Global:DiskCleanupLog += "`nChecked for CBS log corruption, results:"
@@ -167,11 +167,11 @@ function Out-LTLog
         $Global:DiskCleanupLog += "`n----------`t----------"
         foreach ($folder in $Global:foldersizes1PostClean)
             {
-                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
             }
         foreach ($folder in $Global:foldersizes2PostClean)
             {
-                $Global:DiskCleanupLog += "`n" + $($folder.FolderSize) + "`t" + $($folder.FolderName)
+                $Global:DiskCleanupLog += "`n$($folder.FolderSize)`t$($folder.FolderName)"
             }            
 
         Write-Output $Global:DiskCleanupLog
