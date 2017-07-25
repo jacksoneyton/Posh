@@ -130,6 +130,11 @@ function Invoke-FolderClean
             }
         $Global:foldersizes1PostClean = Get-FolderSize -path $Global:path1 -unit MB
         $Global:foldersizes2PostClean = Get-FolderSize -path $Global:path2 -unit MB
+        #Clean RecycleBin
+        $objShell = New-Object -ComObject Shell.Application 
+        $objFolder = $objShell.Namespace(0xA) 
+        #Running Microsoft Disk Cleanup
+        cleanmgr /sagerun:1 | out-Null  
     }
 #Function to Output details to console for use in ticket notes
 function Out-LTLog
