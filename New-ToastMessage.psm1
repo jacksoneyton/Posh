@@ -64,8 +64,8 @@ $xml = New-Object -TypeName Windows.Data.Xml.Dom.XmlDocument
 $xml.LoadXml($toastXml.OuterXml)
 
 $toast = [Windows.UI.Notifications.ToastNotification]::new($xml)
-$toast.Tag = 'ARRC Technology'
-$toast.Group = 'ARRC Technology'
+$toast.Tag = 'Moriarty'
+$toast.Group = 'Moriarty'
 $toast.ExpirationTime = [DateTimeOffset]::Now.AddMinutes(5)
 if($actioncentre)
 {
