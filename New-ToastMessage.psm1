@@ -71,6 +71,6 @@ if($actioncentre)
 {
     $toast.SuppressPopup = $false
 }
-$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('ARRC Technology')
+$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('Moriarty')
 $notifier.Show($toast)
 }
